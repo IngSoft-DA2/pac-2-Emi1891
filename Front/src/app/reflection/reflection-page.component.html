@@ -1,0 +1,28 @@
+<section class="container my-4">
+  <h2 class="h4 mb-3">Reflection</h2>
+
+  <p class="mb-2">Visitas: {{ store.visitCount }}</p>
+
+  <button class="btn btn-outline-secondary mb-4" type="button" (click)="loadImporters()" [disabled]="store.loading">
+    {{ store.loading ? 'Buscando...' : 'Cargar DLL' }}
+  </button>
+
+  <p *ngIf="store.isIdle" class="text-muted">
+    Pulsa el boton para revisar las DLL dentro de la carpeta reflection.
+  </p>
+
+  <p *ngIf="store.errorMessage" class="text-danger">
+    {{ store.errorMessage }}
+  </p>
+
+  <p *ngIf="store.isEmpty" class="text-muted">
+    No encontre DLL que cumplan con la condicion.
+  </p>
+
+  <ul *ngIf="store.importers.length > 0" class="list-unstyled">
+    <li *ngFor="let importer of store.importers">
+      {{ importer }}
+    </li>
+  </ul>
+</section>
+

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using APIServiceFactory.Reflection;
 
 namespace BackApi.Controllers
 {
@@ -7,5 +7,25 @@ namespace BackApi.Controllers
     [ApiController]
     public class ReflectionController : ControllerBase
     {
+        private readonly IImporterScanner _importerScanner;
+
+        public ReflectionController(IImporterScanner importerScanner)
+        {
+            _importerScanner = importerScanner;
+        }
+
+        [HttpGet("importers")]
+        public IActionResult GetImporters()
+        {
+            try
+            {
+                var assemblies = _importerScanner.FindImporterAssemblies();
+                return Ok(assemblies);
+            }
+            catch
+            {
+                return Problem("An unexpected error occurred while processing the request.");
+            }
+        }
     }
 }
